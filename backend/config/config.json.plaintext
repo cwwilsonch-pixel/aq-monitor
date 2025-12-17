@@ -1,0 +1,52 @@
+{
+  "databases": [
+    {
+      "id": "main",
+      "user": "sunrise",
+      "password": "encrypted:b88c5c42dd1ed307442f1e095e1f6506b5d8251d3baf8f9ebab7e633d277d575b7927fc9f46b080712dd8315013ab68c9f980b739fb47eafb0b75a699b992462:bbf9dde46f637533ae6408a698586055:be2acfb18795eaddf50efaa79fcf572d:281d0dbefb498b5e1722d0",
+      "connectString": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=t-orap-db-02.swi.srse.net)(PORT=1901)))(CONNECT_DATA=(SERVICE_NAME=t2kench_srv.swi.srse.net)))",
+      "poolMin": 5,
+      "poolMax": 20
+    }
+  ],
+  "polling": {
+    "intervalMs": 10000
+  },
+  "exclusions": {
+    "queuePatterns": [],
+    "systemUsers": []
+  },
+  "queueDiscovery": {
+    "excludeQueues": [
+      "X_CIF_Q_ERRORHANDLER",
+      "X_CIF_Q_IN_MSG2",
+      "X_CIF_Q_PROCESSTRIGGER"
+    ],
+    "excludeQueueTables": [],
+    "includeSystemUsers": [
+      "SUNRISE",
+      "IF_SAP_AQ"
+    ],
+    "includePattern": ".*",
+    "groupByPrefix": true,
+    "enabled": true
+  },
+  "auth": {
+    "ldap": {
+      "enabled": true,
+      "url": "ldap://swi.srse.net:3268",
+      "bindDN": "fcifapia@swi.srse.net",
+      "bindPassword": "encrypted:f87abbf560baafa17850199a10f46f4472f2fda0e78642d5807cc0fd4f8a5fb10d799f58c315b114013202fc8e337f31eb2205faeabbc8a5fe45c591a1a4e139:abf2db476d0d69c72a6d32d7d3309bdb:67bc4a5878291219d0de446b039311f4:e88ae9b72273d2d7301d",
+      "searchBase": "DC=swi,DC=srse,DC=net",
+      "searchFilter": "(cn={{username}})",
+      "usernameAttribute": "cn",
+      "groupAttribute": "memberOf",
+      "allowedGroups": [
+        "itsdbm_arbor"
+      ]
+    },
+    "local": {
+      "enabled": true
+    }
+  }
+}

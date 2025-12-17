@@ -1,0 +1,47 @@
+{
+  "databases": [
+    { 
+      "id": "main", 
+      "user": "sunrise", 
+      "password": "T02-Sunrise", 
+      "connectString": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=t-orap-db-02.swi.srse.net)(PORT=1901)))(CONNECT_DATA=(SERVICE_NAME=t2kench_srv.swi.srse.net)))",
+      "poolMin": 5,
+      "poolMax": 20
+    }
+  ],
+  "polling": { 
+    "intervalMs": 10000 
+  },
+  "exclusions": {
+    "queuePatterns": [],
+    "systemUsers": []
+  },
+  "queueDiscovery": {
+    "excludeQueues": [
+      "X_CIF_Q_ERRORHANDLER",
+      "X_CIF_Q_IN_MSG2",
+      "X_CIF_Q_PROCESSTRIGGER"
+    ],
+    "excludeQueueTables": [],
+    "includeSystemUsers": ["SUNRISE", "IF_SAP_AQ"],
+    "includePattern": ".*",
+    "groupByPrefix": true,
+    "enabled": true
+  },
+  "auth": {
+    "ldap": {
+      "enabled": true,
+      "url": "ldap://swi.srse.net:3268",
+      "bindDN": "fcifapia@swi.srse.net",
+      "bindPassword": "nCM_Zb2931",
+      "searchBase": "DC=swi,DC=srse,DC=net",
+      "searchFilter": "(cn={{username}})",
+      "usernameAttribute": "cn",
+      "groupAttribute": "memberOf",
+      "allowedGroups": ["itsdbm_arbor"]
+    },
+    "local": {
+      "enabled": true
+    }
+  }
+}

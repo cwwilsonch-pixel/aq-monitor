@@ -1,0 +1,70 @@
+{
+  "databases": [
+    { 
+      "id": "DB1", 
+      "user": "SET_VIA_ENV_DB_DB1_USER", 
+      "password": "SET_VIA_ENV_DB_DB1_PASSWORD", 
+      "connectString": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=your-db-host)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=your_service)))",
+      "poolMin": 5,
+      "poolMax": 20,
+      "emailEnabled": false
+    },
+    { 
+      "id": "DB2", 
+      "user": "SET_VIA_ENV_DB_DB2_USER", 
+      "password": "SET_VIA_ENV_DB_DB2_PASSWORD", 
+      "connectString": "(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=your-db-host)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=your_service)))",
+      "poolMin": 5,
+      "poolMax": 20,
+      "emailEnabled": false
+    }
+  ],
+  "polling": { 
+    "intervalMs": 10000 
+  },
+  "exclusions": {
+    "queuePatterns": [],
+    "systemUsers": []
+  },
+  "queueDiscovery": {
+    "excludeQueues": [
+      "QUEUE_TO_EXCLUDE_1",
+      "QUEUE_TO_EXCLUDE_2"
+    ],
+    "excludeQueueTables": [],
+    "includeSystemUsers": ["SCHEMA1", "SCHEMA2"],
+    "includePattern": ".*",
+    "groupByPrefix": true,
+    "enabled": true
+  },
+  "auth": {
+    "ldap": {
+      "enabled": true,
+      "url": "ldap://your-ldap-server:389",
+      "bindDN": "SET_VIA_ENV_LDAP_BIND_DN",
+      "bindPassword": "SET_VIA_ENV_LDAP_BIND_PASSWORD",
+      "searchBase": "DC=example,DC=com",
+      "searchFilter": "(cn={{username}})",
+      "usernameAttribute": "cn",
+      "groupAttribute": "memberOf",
+      "allowedGroups": ["admin_group"]
+    },
+    "local": {
+      "enabled": true
+    }
+  },
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "smtp": {
+        "host": "your-smtp-server",
+        "port": 25,
+        "secure": false
+      },
+      "from": "noreply@example.com",
+      "recipients": [],
+      "alertCooldownMinutes": 30,
+      "enabledEnvironments": ["development", "test", "production"]
+    }
+  }
+}

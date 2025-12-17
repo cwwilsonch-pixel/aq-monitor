@@ -1,0 +1,31 @@
+FROM node:20-slim
+
+# Install Oracle Instant Client prerequisites and tools
+RUN apt-get update && \
+    apt-get install -y libaio1 wget unzip python3 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download and install Oracle Instant Client for Linux
+RUN mkdir -p /opt/oracle && \
+    cd /opt/oracle && \
+    wget --no-check-certificate https://download.oracle.com/otn_software/linux/instantclient/1923000/instantclient-basic-linux.x64-19.23.0.0.0dbru.zip && \
+    unzip instantclient-basic-linux.x64-19.23.0.0.0dbru.zip && \
+    rm instantclient-basic-linux.x64-19.23.0.0.0dbru.zip && \
+    mv instantclient_19_23 instantclient && \
+    echo /opt/oracle/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+    ldconfig
+
+WORKDIR /app
+COPY backend/package*.json backend/tsconfig.json ./backend/
+    WORKDIR /app/backend
+    COPY backend/config ./config
+    RUN npm config set strict-ssl false && \
+        export NODE_TLS_REJECT_UNAUTHORIZED=0 && \
+        npm install
+
+COPY backend/src ./src
+
+ENV NODE_ENV=production
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient
+
+CMD ["node", "--loader", "ts-node/esm", "src/server.ts"]

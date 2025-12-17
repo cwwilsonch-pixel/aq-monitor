@@ -1,0 +1,411 @@
+docker stop aq-backend
+docker rm aq-backend
+
+docker stop aq-frontend
+docker rm aq-frontend
+
+docker build -f Dockerfile.backend -t aq-backend:latest .
+docker build -f Dockerfile.frontend -t aq-frontend:latest .
+
+
+docker network create aq-net
+docker run -d --name aq-backend --network aq-net -p 4001:4001 aq-backend:latest
+docker run -d --name aq-frontend --network aq-net -p 8080:80 aq-frontend:latest
+
+-- Without re-building
+docker start aq-backend
+docker start aq-frontend
+
+-- Make it available in Docker Desktop
+docker-compose build aq-backend  
+docker-compose build aq-frontend  
+
+
+docker logs aq-frontend --tail 100 -f
+docker logs aq-backend --tail 100 -f
+
+
+
+-----------------------------------------------------------------------------------
+podman stop -a
+podman rm -a
+
+podman rmi -a -f
+
+podman images
+
+-- remove networks
+podman system prune -a -f
+
+podman load -i aq-monitor-backend.tar
+podman load -i aq-monitor-frontend.tar
+
+podman network create aq-net
+
+podman stop aq-backend
+podman rm aq-backend
+
+podman run -d \
+  --name aq-backend \
+  --network aq-net \
+  -p 4001:4001 \
+  aq-backend:latest
+
+podman stop aq-frontend
+podman rm aq-frontend
+
+podman run -d \
+  --name aq-frontend \
+  --network aq-net \
+  -p 4070:443 \
+  -v /opt/app/sunrise/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro,Z \
+  -v /opt/app/sunrise/nginx/certs:/etc/nginx/certs:ro,Z \
+  aq-frontend:latest
+
+podman logs -f aq-frontend  
+
+podman logs -f aq-backend  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export HTTPS_PROXY="http://p-proxy-inf.swi.srse.net:8080"
+export HTTP_PROXY="http://p-proxy-inf.swi.srse.net:8080"
+export HTTP_PROXY="http://p-proxy-inf-02.swi.srse.net:8080"
+export HTTPS_PROXY="http://p-proxy-inf-02.swi.srse.net:8080"
+export NO_PROXY=localhost,127.0.0.1
+curl https://registry-1.docker.io/v2/
+
+curl -u cwilsonch@gmail.com:Darkangel121! https://registry-1.docker.io/v2/
+
+
+aq-backend:latest
+
+
+$env:http_proxy=""
+$env:https_proxy=""
+$env:HTTP_PROXY=""
+$env:HTTPS_PROXY=""
+docker build -f Dockerfile.backend -t myapp-backend:latest .
+
+
+# PowerShell
+$env:http_proxy=""
+$env:https_proxy=""
+$env:HTTP_PROXY=""
+$env:HTTPS_PROXY=""
+docker build -f Dockerfile.backend -t myapp-backend:latest .
+
+
+docker stop aq-backend
+docker rm aq-backend
+
+docker network create aq-net
+docker run -d --name aq-backend --network aq-net -p 4001:4001 myapp-backend:latest
+
+
+docker run -d --name aq-frontend --network aq-net -p 8080:80 myapp-frontend:latest
+
+
+.-----------------------------------------------
+cd C:\dev\sandbox\aq-monitor
+
+docker build -f Dockerfile.backend -t myapp-backend:latest .
+docker build -f Dockerfile.frontend -t myapp-frontend:latest .
+
+
+--------------------------------------------
+
+docker stop aq-backend 2>$null
+docker rm aq-backend 2>$null
+
+docker run -d --name aq-backend `
+  --network aq-net `
+  -p 4001:4001 `
+  -v C:\oracle\product\19c\Client_x64:/opt/oracle/client `
+  -e ORACLE_HOME=/opt/oracle/client `
+  myapp-backend:latest
+
+docker ps
+docker logs aq-backend
+
+
+
+docker build -f Dockerfile.frontend -t aq-monitor-frontend:latest .
+docker stop aq-frontend 2>$null
+docker rm aq-frontend 2>$null
+docker run -d --name aq-frontend `
+  --network aq-net `
+  -p 8080:80 `
+  myapp-frontend:latest
+
+docker logs aq-frontend
+
+
+.--------------
+docker stop aq-backend 
+docker start aq-backend
+docker logs --tail 50 aq-backend
+docker logs -f aq-backend
+
+
+docker ps -q | ForEach-Object { docker stop $_ }
+docker ps -a -q | ForEach-Object { docker rm $_ }
+
+docker rm -f aq-backend
+docker build -f Dockerfile.backend -t aq-backend:latest .
+
+docker run -d `
+  --name aq-backend `
+  --network aq-net `
+  -p 4001:4001 `
+  aq-monitor-backend:latest
+
+docker-compose build aq-backend  
+docker stop aq-backend; docker rm aq-backend; docker-compose up -d aq-backend   
+
+docker-compose build aq-frontend 
+docker stop aq-frontend; docker rm aq-frontend; docker-compose up -d aq-frontend   
+
+docker logs aq-frontend --tail 100 -f
+docker logs aq-backend --tail 100 -f
+
+docker rm -f aq-frontend
+docker build -f Dockerfile.frontend -t aq-frontend:latest .
+
+docker run -d `
+  --name aq-frontend `
+  --network aq-net `
+  -p 8080:80 `
+  aq-frontend:latest
+
+docker logs aq-frontend --tail 50 -f  
+
+
+docker run -d `
+  --name aq-frontend `
+  --network aq-net `
+  -p 8080:443 `
+  -v C:\dev\sandbox\aq-monitor\nginx\default.conf:/etc/nginx/conf.d/default.conf:ro `
+  -v C:\dev\sandbox\aq-monitor\certs:/etc/nginx/certs:ro `
+  aq-frontend:latest
+
+
+
+docker logs aq-frontend --tail 50 -f
+
+
+
+
+docker logs aq-monitor-frontend --tail 50 -f
+
+docker logs aq-monitor-backend-1 --tail 50 -f
+
+
+
+
+docker stop aq-monitor-backend
+docker stop aq-monitor-frontend
+
+docker start aq-monitor-backend-1
+docker start aq-monitor-frontend-1
+
+
+docker logs -f -n 50 aq-monitor-backend-1
+
+docker logs -f aq-monitor-backend-1
+
+docker logs -f -n 50 aq-monitor-frontend
+
+
+
+$env:HTTP_PROXY
+$env:HTTPS_PROXY
+$env:NO_PROXY
+
+$env:HTTPS_PROXY="http://p-proxy-inf.swi.srse.net:8080"
+$env:HTTP_PROXY="http://p-proxy-inf.swi.srse.net:8080"
+
+curl -v -x http://proxy-lb.swi.srse.net:8080 https://example.com
+
+curl -v -x http://p-proxy-inf.swi.srse.net:8080 https://example.com
+
+
+docker info | Select-String Proxy
+
+
+
+# Remove from current PowerShell process
+Remove-Item Env:HTTP_PROXY  -ErrorAction SilentlyContinue
+Remove-Item Env:HTTPS_PROXY -ErrorAction SilentlyContinue
+Remove-Item Env:NO_PROXY    -ErrorAction SilentlyContinue
+Remove-Item Env:http_proxy  -ErrorAction SilentlyContinue
+Remove-Item Env:https_proxy -ErrorAction SilentlyContinue
+Remove-Item Env:no_proxy    -ErrorAction SilentlyContinue
+
+
+[Environment]::SetEnvironmentVariable('HTTP_PROXY',  $null, 'User')
+[Environment]::SetEnvironmentVariable('HTTPS_PROXY', $null, 'User')
+[Environment]::SetEnvironmentVariable('NO_PROXY',    $null, 'User')
+
+
+----------------------------------------------
+linux
+
+
+podman stop -a
+podman rm -a
+
+podman rmi -a -f
+
+podman images
+
+-- remove networks
+podman system prune -a -f
+
+podman load -i aq-monitor-backend.tar
+podman load -i aq-monitor-frontend.tar
+
+podman network create aq-net
+
+podman stop aq-backend
+podman rm aq-backend
+
+podman run -d \
+  --name aq-backend \
+  --network aq-net \
+  -p 4001:4001 \
+  aq-backend:latest
+
+podman stop aq-frontend
+podman rm aq-frontend
+
+podman run -d \
+  --name aq-frontend \
+  --network aq-net \
+  -p 4070:443 \
+  -v /opt/app/sunrise/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro,Z \
+  -v /opt/app/sunrise/nginx/certs:/etc/nginx/certs:ro,Z \
+  aq-frontend:latest
+podman logs -f aq-frontend  
+  
+  
+podman stop aq-frontend
+podman start aq-frontend
+
+
+podman stop aq-frontend
+podman stop aq-backend
+
+-v /opt/app/sunrise/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro,Z \
+
+podman stop aq-frontend
+
+# follow logs (like tail -f)
+podman logs -f aq-backend
+podman logs -f aq-frontend
+
+# Talk directly to backend container
+curl -v http://d-kenan-cif-01:4001/
+curl -v http://d-kenan-cif-01:4001/aq-monitor/api/
+
+# Talk to frontend (e.g. Nginx/SPAs)
+curl -v https://d-kenan-cif-01.swi.srse.net:4070/
+curl -v http://d-kenan-cif-01:8080/aq-monitor/
+
+curl -v https://d-kenan-cif-01.swi.srse.net:4070/aq-monitor/
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Frontend builds When disconnected from vpn
+docker compose up -d --force-recreate --no-deps --build frontend
+
+#Backend builds When connected to vpn
+docker compose up -d --force-recreate --no-deps --build backend
+
+# See what exists
+podman ps -a
+
+# Stop if running (ignore errors if already stopped)
+podman stop aq-monitor-backend aq-monitor-frontend 
+
+podman stop aq-monitor-frontend
+podman stop aq-monitor-backend
+
+# Remove existing containers with those names
+podman rm aq-monitor-backend aq-monitor-frontend
+podman rm aq-monitor-backend 
+podman rm aq-monitor-frontend
+
+
+# 1) Create a user-defined network once
+podman network create aq-net
+
+# 2) Recreate backend with name "backenpodmnd" on that network
+podman rm -f aq-monitor-backend
+
+podman run -d --name aq-monitor-backend \
+  --network aq-net \
+  -p 4001:4001 \
+  aq-monitor-backend:latest
+
+# 3) Recreate frontend on the same network, same image
+podman rm -f aq-monitor-frontend
+
+podman run -d --name aq-monitor-frontend \
+  --network aq-net \
+  -p 4070:80 \
+  aq-monitor-frontend:latest
+
+
+# one-shot logs
+podman logs aq-monitor-backend
+podman logs aq-monitor-frontend
+
+# follow logs (like tail -f)
+podman logs -f aq-backend
+podman logs -f aq-frontend

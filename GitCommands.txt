@@ -1,0 +1,22 @@
+# Navigate to project root
+cd C:\dev\sandbox\aq-monitor
+
+# Check current status
+git status
+
+# Add all changed files
+git add .
+
+# Commit with descriptive message
+git commit -m "Finalising"
+
+# View commit log
+git log --oneline -5
+
+# View tags
+git tag
+
+
+--------------------
+
+git reset --hard HEAD

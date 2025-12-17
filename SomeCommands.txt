@@ -1,0 +1,5 @@
+ldapsearch -h swi.srse.net -p 3268 -D "fcifapia@swi.srse.net" -w 'nCM_Zb2931' -b "DC=swi,DC=srse,DC=net" -s sub "(cn=gaspars*)" -v | grep -i arbor
+
+ldapsearch -h swi.srse.net -p 3268 -D "fcifapia@swi.srse.net" -w 'nCM_Zb2931' -b "DC=swi,DC=srse,DC=net" -s sub "(cn=domingues*)" -v | grep -i arbor
+
+net localgroup docker-users Wilson /add

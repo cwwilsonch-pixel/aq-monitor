@@ -1,0 +1,64 @@
+@startuml aq-monitor
+skinparam backgroundColor #F8F8FF
+skinparam componentStyle rectangle
+skinparam shadowing true
+skinparam actorStyle awesome
+
+actor User #LightBlue
+rectangle "Frontend (React)" as Frontend #LightGreen
+rectangle "Nginx (Proxy/Static)" as Nginx #LightYellow
+rectangle "Backend (Express)" as Backend #LightPink
+database "Oracle DB" as OracleDB #LightSkyBlue
+database "SQLite DB" as SQLiteDB #LightSeaGreen
+
+User -[#blue]-> Frontend : Access Web UI (HTTPS)
+Frontend -[#green]-> Nginx : Request static files
+Nginx -[#green]-> Frontend : Serve static files
+
+User -[#blue]-> Frontend : Interact with UI
+Frontend -[#orange]-> Nginx : API Request (/aq-monitor/api/*)
+Nginx -[#orange]-> Backend : Proxy API Request
+
+Backend -[#purple]-> OracleDB : Query/Update
+Backend -[#purple]-> SQLiteDB : Store snapshots
+Backend -[#red]-> Nginx : API Response (JSON)
+Nginx -[#red]-> Frontend : API Response (JSON)
+Frontend -[#blue]-> User : Rendered UI/Data
+
+package "Backend Services" #Pink {
+  [AuthService] #LightSkyBlue
+  [QueuePoller] #LightGreen
+  [MetricsAggregator] #Gold
+  [SnapshotStore] #Plum
+  [ConfigManager] #Khaki
+  Backend --> AuthService : Authenticate user
+  Backend --> QueuePoller : Poll AQ queues
+  Backend --> MetricsAggregator : Aggregate metrics
+  Backend --> SnapshotStore : Store queue snapshots
+  Backend --> ConfigManager : Load config.json
+}
+
+note right of Frontend
+<b>Frontend (React)</b>
+- Serves SPA
+- Uses fetch/AJAX for API
+- Handles login, metrics, analytics
+end note
+
+note left of Backend
+<b>Backend (Express)</b>
+- Auth via LDAP/Local
+- Polls Oracle AQ
+- Aggregates metrics
+- Stores snapshots in SQLite
+- Configurable via config.json
+end note
+
+note bottom of Nginx
+<b>Nginx</b>
+- Serves static files
+- Proxies API requests
+- Handles SSL termination
+end note
+
+@enduml

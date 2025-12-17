@@ -1,0 +1,54 @@
+services:
+  aq-backend:
+    container_name: aq-backend
+    image: aq-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+      args:
+        - HTTP_PROXY=${HTTP_PROXY}
+        - HTTPS_PROXY=${HTTPS_PROXY}
+        - NO_PROXY=${NO_PROXY}
+    environment:
+      - PORT=4001
+      - BASE_PATH=/aq-monitor
+      - JWT_SECRET=localdev
+      - LDAP_ENABLED=false
+      - IAM_ENABLED=false
+      - SQLITE_FILE=/data/aq-monitor.db
+      - DB_T1KENCH_USER=${DB_T1KENCH_USER}
+      - DB_T1KENCH_PASSWORD=${DB_T1KENCH_PASSWORD}
+      - DB_T2KENCH_USER=${DB_T2KENCH_USER}
+      - DB_T2KENCH_PASSWORD=${DB_T2KENCH_PASSWORD}
+      - DB_T3KENCH_USER=${DB_T3KENCH_USER}
+      - DB_T3KENCH_PASSWORD=${DB_T3KENCH_PASSWORD}
+      - LDAP_BIND_DN=${LDAP_BIND_DN}
+      - LDAP_BIND_PASSWORD=${LDAP_BIND_PASSWORD}
+    volumes:
+      - backend_data:/data
+      - ./backend/config:/app/backend/config:ro
+      - ./certs:/app/certs:ro
+    ports:
+      - "4001:4001"
+    restart: unless-stopped
+
+  aq-frontend:
+    container_name: aq-frontend
+    image: aq-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        - HTTP_PROXY=${HTTP_PROXY}
+        - HTTPS_PROXY=${HTTPS_PROXY}
+        - NO_PROXY=${NO_PROXY}
+    depends_on:
+      - aq-backend
+    ports:
+      - "8080:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    restart: unless-stopped
+
+volumes:
+  backend_data:
